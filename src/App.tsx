@@ -88,7 +88,7 @@ function App() {
       <nav className="fixed top-0 w-full bg-black/95 backdrop-blur-lg z-50 border-b border-white/10 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <img src="public/logo.png" alt="Sense Solutions" className="h-10 w-auto" />
+            <img src="public\logo.png" alt="Sense Solutions" className="h-10 w-auto" />
           </div>
 
           <div className="hidden md:flex items-center gap-8">
@@ -127,7 +127,7 @@ function App() {
         <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
           <div className="flex justify-center mb-8 hero-logo-wrap">
             <img
-              src="public/logo.png"
+              src="public\logo.png"
               alt="Sense Solutions Logo"
               className="h-32 md:h-48 w-auto drop-shadow-2xl animate-hero-logo"
             />
@@ -278,7 +278,7 @@ function App() {
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16">
           <div>
             <div className="flex items-center gap-3 mb-15">
-              <img src="public/logo.png" alt="Logo" className="h-12" />
+              <img src="public\logo.png" alt="Logo" className="h-12" />
             </div>
 
             <p className="text-gray-400 max-w-md">
