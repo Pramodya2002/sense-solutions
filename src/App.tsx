@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Menu, X, Star } from 'lucide-react';
+import { Menu, X, Star, Camera, Aperture, Mail, MapPin, Phone } from 'lucide-react';
 import './App.css';
 
 function App() {
@@ -8,9 +8,52 @@ function App() {
   const projectsRef = useRef<HTMLElement | null>(null);
   const teamRef = useRef<HTMLElement | null>(null);
   const hasCountedRef = useRef(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set());
-  const [stats, setStats] = useState({ projects: 0, clients: 0, years: 0 });
+  const [stats, setStats] = useState({ shoots: 0, clients: 0, moments: 0 });
+
+  const portfolioItems = [
+    {
+      title: 'Wedding Stories',
+      category: 'Weddings',
+      image: 'https://source.unsplash.com/900x1100/?wedding,photography,couple',
+    },
+    {
+      title: 'Event Coverage',
+      category: 'Events',
+      image: 'https://source.unsplash.com/900x1100/?event,photography,celebration',
+    },
+    {
+      title: 'Portrait Sessions',
+      category: 'Portraits',
+      image: 'https://source.unsplash.com/900x1100/?portrait,studio,photography',
+    },
+    {
+      title: 'Product Frames',
+      category: 'Products',
+      image: 'https://source.unsplash.com/900x1100/?product,photography,luxury',
+    },
+    {
+      title: 'Brand Campaigns',
+      category: 'Commercial',
+      image: 'https://source.unsplash.com/900x1100/?brand,photography,creative',
+    },
+    {
+      title: 'Family Moments',
+      category: 'Lifestyle',
+      image: 'https://source.unsplash.com/900x1100/?family,photography,lifestyle',
+    },
+  ];
+
+  const services = [
+    'Wedding Photography',
+    'Event Coverage',
+    'Portrait Sessions',
+    'Product Photography',
+    'Brand & Commercial Shoots',
+    'Professional Photo Editing',
+  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -28,8 +71,8 @@ function App() {
         });
       },
       {
-        threshold: 0.18,
-        rootMargin: '0px 0px -120px 0px',
+        threshold: 0.08,
+        rootMargin: '0px 0px -40px 0px',
       }
     );
 
@@ -49,7 +92,7 @@ function App() {
       start: number,
       end: number,
       setter: (val: number) => void,
-      duration: number = 1800
+      duration: number = 1900
     ) => {
       let startTimestamp: number | null = null;
 
@@ -75,32 +118,44 @@ function App() {
     hasCountedRef.current = true;
 
     const timer = setTimeout(() => {
-      animateCounter(0, 50, (val) => setStats((s) => ({ ...s, projects: val })));
-      animateCounter(0, 20, (val) => setStats((s) => ({ ...s, clients: val })));
-      animateCounter(0, 8, (val) => setStats((s) => ({ ...s, years: val })));
-    }, 500);
+      animateCounter(0, 120, (val) => setStats((s) => ({ ...s, shoots: val })));
+      animateCounter(0, 75, (val) => setStats((s) => ({ ...s, clients: val })));
+      animateCounter(0, 10, (val) => setStats((s) => ({ ...s, moments: val })));
+    }, 400);
 
     return () => clearTimeout(timer);
   }, [visibleSections]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 500);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden scroll-smooth">
-      <nav className="fixed top-0 w-full bg-black/95 backdrop-blur-lg z-50 border-b border-white/10 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="Sense Solutions" className="h-10 w-auto" />
-          </div>
+    <div className="site-shell min-h-screen text-white overflow-x-hidden scroll-smooth">
+      <nav className="fixed top-0 w-full z-50 nav-glass">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 py-4 flex justify-between items-center">
+          <a href="#home" className="flex items-center gap-3">
+            <img src="public/logo.png" alt="Sense Solutions" className="nav-logo" />
+          </a>
 
           <div className="hidden md:flex items-center gap-8">
-            <a href="#about" className="hover:text-gray-400 transition">About</a>
-            <a href="#projects" className="hover:text-gray-400 transition">Projects</a>
-            <a href="#team" className="hover:text-gray-400 transition">Team</a>
-            <a href="#contact" className="hover:text-gray-400 transition">Contact</a>
+            <a href="#about" className="nav-link">About</a>
+            <a href="#projects" className="nav-link">Portfolio</a>
+            <a href="#team" className="nav-link">Studio</a>
+            <a href="#contact" className="nav-link">Contact</a>
           </div>
+
+
+
 
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden"
+            className="md:hidden mobile-nav-button"
             aria-label="Toggle navigation menu"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -108,46 +163,65 @@ function App() {
         </div>
 
         {isMenuOpen && (
-          <div className="md:hidden bg-black border-t border-white/10 py-4 mobile-menu-enter">
-            <div className="flex flex-col items-center gap-6 text-lg">
-              <a href="#about" onClick={() => setIsMenuOpen(false)}>About</a>
-              <a href="#projects" onClick={() => setIsMenuOpen(false)}>Projects</a>
-              <a href="#team" onClick={() => setIsMenuOpen(false)}>Team</a>
-              <a href="#contact" onClick={() => setIsMenuOpen(false)}>Contact</a>
-            </div>
+          <div className="md:hidden mobile-menu-enter mobile-menu-panel">
+            <a href="#about" onClick={() => setIsMenuOpen(false)}>About</a>
+            <a href="#projects" onClick={() => setIsMenuOpen(false)}>Portfolio</a>
+            <a href="#team" onClick={() => setIsMenuOpen(false)}>Studio</a>
+            <a href="#contact" onClick={() => setIsMenuOpen(false)}>Contact</a>
           </div>
         )}
       </nav>
 
-      <section className="min-h-screen flex items-center justify-center pt-20 bg-gradient-to-br from-black via-zinc-950 to-black relative overflow-hidden hero-stage">
-        <div className="hero-orbit hero-orbit-one" />
-        <div className="hero-orbit hero-orbit-two" />
-        <div className="hero-pulse-grid" />
+      <section id="home" className="hero-stage min-h-screen relative overflow-hidden">
+        <div className="hero-photo hero-photo-one" />
+        <div className="hero-photo hero-photo-two" />
+        <div className="hero-photo hero-photo-three" />
+        <div className="lens-ring lens-ring-one" />
+        <div className="lens-ring lens-ring-two" />
+        <div className="shutter-lines" />
 
-        <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
-          <div className="flex justify-center mb-8 hero-logo-wrap">
-            <img
-              src="/logo.png"
-              alt="Sense Solutions Logo"
-              className="h-32 md:h-48 w-auto drop-shadow-2xl animate-hero-logo"
-            />
+        <div className="max-w-7xl mx-auto min-h-screen px-5 sm:px-6 pt-28 pb-16 grid lg:grid-cols-[1.08fr_0.92fr] gap-10 items-center relative z-10">
+          <div className="hero-copy">
+            <div className="hero-logo-wrap">
+              <img
+                src="public/logo.png"
+                alt="Sense Solutions Logo"
+                className="hero-logo-image animate-hero-logo"
+              />
+            </div>
+
+            <div className="hero-kicker hero-title-load">
+              <Camera size={18} />
+              Sri Lankan Photography Studio
+            </div>
+
+            <h1 className="hero-title hero-title-load">
+              CAPTURING MOMENTS THAT FEEL ALIVE
+            </h1>
+
+            <p className="hero-subtitle hero-copy-load">
+              Wedding, event, portrait, product, and brand photography crafted with cinematic light,
+              clean composition, and careful editing.
+            </p>
+
+            <div className="hero-actions hero-button-load">
+              <a href="#projects" className="primary-button">View Portfolio</a>
+
+            </div>
           </div>
 
-          <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-6 hero-title-load">
-            SENSE THE FUTURE
-          </h1>
-
-          <p className="text-2xl md:text-3xl text-gray-400 max-w-2xl mx-auto hero-copy-load">
-            Innovative solutions that transform businesses
-          </p>
-
-          <div className="mt-12 hero-button-load">
-            <a
-              href="#about"
-              className="inline-block bg-white text-black px-10 py-4 rounded-full font-semibold hover:bg-gray-200 transition-all hover:scale-105 active:scale-95"
-            >
-              Discover More
-            </a>
+          <div className="hero-showcase">
+            <div className="camera-frame">
+              <div className="camera-frame-image" />
+              <div className="focus-corner focus-corner-one" />
+              <div className="focus-corner focus-corner-two" />
+              <div className="focus-corner focus-corner-three" />
+              <div className="focus-corner focus-corner-four" />
+              <div className="frame-caption">
+                <span>01</span>
+                <p>Golden-hour visual stories</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -156,48 +230,66 @@ function App() {
         id="about"
         ref={aboutRef}
         data-index="0"
-        className={`py-24 bg-zinc-950 reveal-section reveal-from-left ${visibleSections.has(0) ? 'is-visible' : ''
-          }`}
+        className={`section-band reveal-section reveal-from-left ${visibleSections.has(0) ? 'is-visible' : ''}`}
       >
-        <div className="max-w-6xl mx-auto px-6 section-inner">
-          <h2 className="text-5xl font-bold text-center mb-16 reveal-child">Our Story</h2>
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 section-inner">
+          <div className="section-heading reveal-child">
+            <span>About the studio</span>
+            <h2>Photography with mood, movement, and memory.</h2>
+          </div>
 
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div className="reveal-child delay-150">
-              <p className="text-lg text-gray-300 leading-relaxed">
-                Sense Solutions is a forward-thinking company specializing in cutting-edge digital solutions,
-                creative design, and technology-driven services...
+          <div className="about-grid">
+            <div className="about-copy reveal-child delay-150">
+              <p>
+                Sense Solutions is a Sri Lankan photography company focused on capturing weddings,
+                events, portraits, product visuals, and brand stories with a polished editorial style.
               </p>
 
-              <div className="mt-8 grid grid-cols-3 gap-8 text-center">
+              <div className="company-details">
+                <h3>Registered Company Details</h3>
+                <div className="details-list">
+                  <p><span>Registered Name</span>SENSE SOLUTIONS (PVT) LTD</p>
+                  <p><span>Company Number</span>PV 00315784</p>
+                  <p><span>Company Type</span>Private Limited Company</p>
+                  <p><span>Incorporated</span>22 November 2024</p>
+                  <p><span>Registered Office</span>No. 292/A, Meerigama Road, Wewagedara, Divulapitiya, 11250, Sri Lanka</p>
+                  <p><span>Registered Under</span>Companies Act No. 7 of 2007</p>
+                </div>
+              </div>
+
+              <div className="stats-grid">
                 <div className="stat-card">
-                  <div className="text-5xl font-bold text-white">{stats.projects}+</div>
-                  <div className="text-sm text-gray-500">Projects Delivered</div>
+                  <strong>{stats.shoots}+</strong>
+                  <span>Shoots Completed</span>
                 </div>
 
                 <div className="stat-card delay-100">
-                  <div className="text-5xl font-bold text-white">{stats.clients}+</div>
-                  <div className="text-sm text-gray-500">Happy Clients</div>
+                  <strong>{stats.clients}+</strong>
+                  <span>Happy Clients</span>
                 </div>
 
                 <div className="stat-card delay-200">
-                  <div className="text-5xl font-bold text-white">{stats.years}</div>
-                  <div className="text-sm text-gray-500">Years Experience</div>
+                  <strong>{stats.moments}k+</strong>
+                  <span>Moments Captured</span>
                 </div>
               </div>
             </div>
 
-            <div className="bg-zinc-900 p-8 rounded-3xl reveal-child delay-300 feature-panel">
-              <h3 className="text-2xl font-semibold mb-6">What We Do</h3>
+            <div className="services-panel reveal-child delay-300">
+              <div className="aperture-badge">
+                <Aperture size={34} />
+              </div>
 
-              <ul className="space-y-6">
-                {['Digital Strategy', 'Brand Development', 'Web & App Development', 'Creative Design', 'Marketing Solutions'].map((item, i) => (
+              <h3>What We Shoot</h3>
+
+              <ul>
+                {services.map((item, i) => (
                   <li
                     key={item}
-                    className="flex items-start gap-4 service-item"
-                    style={{ transitionDelay: `${450 + i * 110}ms` }}
+                    className="service-item"
+                    style={{ transitionDelay: `${420 + i * 95}ms` }}
                   >
-                    <Star className="mt-1 text-yellow-400" />
+                    <Star size={18} />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -211,31 +303,28 @@ function App() {
         id="projects"
         ref={projectsRef}
         data-index="1"
-        className={`py-24 bg-black reveal-section reveal-zoom ${visibleSections.has(1) ? 'is-visible' : ''
-          }`}
+        className={`portfolio-section reveal-section reveal-zoom ${visibleSections.has(1) ? 'is-visible' : ''}`}
       >
-        <div className="max-w-6xl mx-auto px-6 section-inner">
-          <h2 className="text-5xl font-bold text-center mb-16 reveal-child">Our Projects</h2>
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 section-inner">
+          <div className="section-heading center reveal-child">
+            <span>Selected work</span>
+            <h2>Portfolio frames built for feeling.</h2>
+          </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3, 4, 5, 6].map((i, idx) => (
-              <div
-                key={i}
-                className="group bg-zinc-900 rounded-3xl overflow-hidden project-card reveal-child"
-                style={{ transitionDelay: `${180 + idx * 120}ms` }}
+          <div className="portfolio-grid">
+            {portfolioItems.map((item, idx) => (
+              <article
+                key={item.title}
+                className="portfolio-card reveal-child"
+                style={{ transitionDelay: `${160 + idx * 100}ms` }}
               >
-                <div className="h-64 bg-zinc-800 flex items-center justify-center relative overflow-hidden">
-                  <div className="project-card-shine" />
-                  <div className="text-6xl text-gray-700 group-hover:scale-110 transition-transform duration-500">
-                    Project {i}
-                  </div>
+                <img src={item.image} alt={item.title} />
+                <div className="project-card-shine" />
+                <div className="portfolio-overlay">
+                  <span>{item.category}</span>
+                  <h3>{item.title}</h3>
                 </div>
-
-                <div className="p-8">
-                  <h3 className="text-2xl font-semibold mb-2">Project Title {i}</h3>
-                  <p className="text-gray-400">Innovative solution delivered with excellence.</p>
-                </div>
-              </div>
+              </article>
             ))}
           </div>
         </div>
@@ -245,65 +334,82 @@ function App() {
         id="team"
         ref={teamRef}
         data-index="2"
-        className={`py-24 bg-zinc-950 reveal-section reveal-from-right ${visibleSections.has(2) ? 'is-visible' : ''
-          }`}
+        className={`studio-section reveal-section reveal-from-right ${visibleSections.has(2) ? 'is-visible' : ''}`}
       >
-        <div className="max-w-6xl mx-auto px-6 section-inner">
-          <h2 className="text-5xl font-bold text-center mb-16 reveal-child">Our Team</h2>
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 section-inner">
+          <div className="section-heading reveal-child">
+            <span>Studio approach</span>
+            <h2>From first call to final gallery.</h2>
+          </div>
 
-          <div className="grid md:grid-cols-3 gap-10">
+          <div className="workflow-grid">
             {[
-              { name: 'John Doe', role: 'Founder & CEO', initials: 'JD' },
-              { name: 'Jane Smith', role: 'Creative Director', initials: 'JS' },
-              { name: 'Alex Chen', role: 'Tech Lead', initials: 'AC' },
-            ].map((member, i) => (
+              { number: '01', title: 'Plan the Mood', text: 'We discuss your date, location, style, outfit ideas, and must-have moments.' },
+              { number: '02', title: 'Shoot with Direction', text: 'We guide poses, capture natural movement, and keep the session relaxed.' },
+              { number: '03', title: 'Edit with Care', text: 'Final images are color-graded, refined, and prepared for sharing or printing.' },
+            ].map((step, i) => (
               <div
-                key={member.name}
-                className="text-center team-card reveal-child"
-                style={{ transitionDelay: `${180 + i * 170}ms` }}
+                key={step.title}
+                className="workflow-card reveal-child"
+                style={{ transitionDelay: `${180 + i * 160}ms` }}
               >
-                <div className="w-48 h-48 mx-auto mb-6 bg-zinc-800 rounded-full flex items-center justify-center text-5xl font-bold team-avatar">
-                  {member.initials}
-                </div>
-
-                <h3 className="text-2xl font-semibold">{member.name}</h3>
-                <p className="text-gray-400">{member.role}</p>
+                <span>{step.number}</span>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <footer id="contact" className="bg-black border-t border-white/10 py-20">
-        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16">
+      <footer id="contact" className="footer-section">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 footer-grid">
           <div>
-            <div className="flex items-center gap-3 mb-15">
-              <img src="/logo.png" alt="Logo" className="h-12" />
-            </div>
+            <img src="public/logo.png" alt="Sense Solutions" className="footer-logo" />
 
-            <p className="text-gray-400 max-w-md">
-              Transforming ideas into impactful digital experiences.
+            <p className="footer-text">
+              Capturing weddings, events, portraits, products, and brand stories with care,
+              creativity, and a clean cinematic finish.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-8">
+          <div className="contact-grid">
             <div>
-              <h4 className="font-semibold mb-6">Contact</h4>
-              <p className="text-gray-400">info@sensesolutions.lk</p>
-              <p className="text-gray-400">+94 77 123 4567</p>
+              <h4>Contact</h4>
+              <p>Mrs. K.A.T.N. Jayasinghe</p>
+              <p>SENSE SOLUTIONS (PVT) LTD</p>
+              <p>Managing Director</p>
+              <p><Mail size={16} /> thar4media@gmail.com</p>
+              <p><Phone size={16} /> +9477 966 1606</p>
+              <p><Phone size={16} /> +9470 403 5964</p>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-6">Location</h4>
-              <p className="text-gray-400">Colombo, Sri Lanka</p>
+              <h4>Location</h4>
+              <p><MapPin size={16} /> No. 292/A, Meerigama Road</p>
+              <p>Wewagedara, Divulapitiya</p>
+              <p>11250, Sri Lanka</p>
             </div>
           </div>
         </div>
 
-        <div className="text-center text-gray-500 text-sm mt-16">
+        <div className="footer-bottom">
           (c) 2026 Sense Solutions. All Rights Reserved.
         </div>
       </footer>
+
+
+      {/* Scroll to Top Button */}
+      {showScrollTop && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="scroll-to-top"
+          aria-label="Scroll to top"
+        >
+          ↑
+        </button>
+      )}
+
     </div>
   );
 }
