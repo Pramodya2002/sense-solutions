@@ -155,7 +155,8 @@ body {
   isolation: isolate;
   background:
     linear-gradient(90deg, rgba(5, 5, 5, 0.98), rgba(5, 5, 5, 0.62)),
-    url('https://source.unsplash.com/1800x1200/?camera,photography,studio') center / cover;
+    url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1800&q=80') center / cover;
+
 }
 
 .hero-stage::before {
@@ -295,7 +296,8 @@ body {
 .hero-photo-one {
   right: 8vw;
   top: 18vh;
-  background-image: url('https://source.unsplash.com/700x900/?wedding,photography');
+  background-image: url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=700&q=80');
+
   transform: rotate(8deg) translateY(80px);
   animation-delay: 0.45s, 2s;
 }
@@ -303,7 +305,7 @@ body {
 .hero-photo-two {
   right: 24vw;
   bottom: 12vh;
-  background-image: url('https://source.unsplash.com/700x900/?portrait,photography');
+  background-image: url('https://images.unsplash.com/photo-1606216794074-735e91aa2c92');
   transform: rotate(-8deg) translateY(80px);
   animation-delay: 0.65s, 2.2s;
 }
@@ -311,7 +313,7 @@ body {
 .hero-photo-three {
   left: 4vw;
   bottom: 8vh;
-  background-image: url('https://source.unsplash.com/700x900/?camera,lens');
+  background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d');
   transform: rotate(6deg) translateY(80px);
   animation-delay: 0.85s, 2.4s;
 }
@@ -373,7 +375,9 @@ body {
   height: 100%;
   background:
     linear-gradient(180deg, transparent 46%, rgba(0, 0, 0, 0.74)),
-    url('https://source.unsplash.com/1000x1250/?photographer,wedding,camera') center / cover;
+    url('https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1000&q=80') center / cover;
+
+
 }
 
 .focus-corner {
@@ -1103,7 +1107,8 @@ body {
   .hero-stage {
     background:
       linear-gradient(180deg, rgba(5, 5, 5, 0.86), rgba(5, 5, 5, 0.96)),
-      url('https://source.unsplash.com/1300x1600/?camera,photography,studio') center / cover;
+      url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1300&q=80') center / cover;
+
   }
 
   .hero-showcase {

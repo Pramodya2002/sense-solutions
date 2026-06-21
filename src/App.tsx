@@ -140,7 +140,7 @@ function App() {
       <nav className="fixed top-0 w-full z-50 nav-glass">
         <div className="max-w-7xl mx-auto px-5 sm:px-6 py-4 flex justify-between items-center">
           <a href="#home" className="flex items-center gap-3">
-            <img src="/sense-solutions/logo.png" alt="Sense Solutions" className="nav-logo" />
+            <img src="/sense-solutions/logo_1.png" alt="Sense Solutions" className="nav-logo" />
           </a>
 
           <div className="hidden md:flex items-center gap-8">
@@ -184,7 +184,7 @@ function App() {
           <div className="hero-copy">
             <div className="hero-logo-wrap">
               <img
-                src="/sense-solutions/logo.png"
+                src="/sense-solutions/logo_1.png"
                 alt="Sense Solutions Logo"
                 className="hero-logo-image animate-hero-logo"
               />
@@ -365,7 +365,7 @@ function App() {
       <footer id="contact" className="footer-section">
         <div className="max-w-7xl mx-auto px-5 sm:px-6 footer-grid">
           <div>
-            <img src="/sense-solutions/logo.png" alt="Sense Solutions" className="footer-logo" />
+            <img src="/sense-solutions/logo_1.png" alt="Sense Solutions" className="footer-logo" />
 
             <p className="footer-text">
               Capturing weddings, events, portraits, products, and brand stories with care,
