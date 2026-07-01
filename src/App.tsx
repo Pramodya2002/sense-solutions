@@ -394,7 +394,7 @@ function App() {
         </div>
 
         <div className="footer-bottom">
-          (c) 2026 Sense Solutions. All Rights Reserved.
+          &copy; 2026 Sense Solutions. All Rights Reserved. • Designed & Developed by Dheeshani.Dev
         </div>
       </footer>
 
